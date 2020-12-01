@@ -362,10 +362,11 @@ static gboolean graph_tooltip(GtkWidget *w, gint x, gint y,
 
 static int on_expose_drawing_area(GtkWidget *w, GdkEvent *event, gpointer p)
 {
+	GdkWindow *window;
+	GdkDrawingContext *drawing;
 	struct gfio_graphs *g = p;
+	cairo_region_t *region;
 	cairo_t *cr;
-
-	cr = gdk_cairo_create(gtk_widget_get_window(w));
 
 	if (graph_has_tooltips(g->iops_graph) ||
 	    graph_has_tooltips(g->bandwidth_graph)) {
@@ -373,10 +374,17 @@ static int on_expose_drawing_area(GtkWidget *w, GdkEvent *event, gpointer p)
 		g_signal_connect(w, "query-tooltip", G_CALLBACK(graph_tooltip), g);
 	}
 
+	window = gtk_widget_get_window(w);
+	region = cairo_region_create();
+	drawing = gdk_window_begin_draw_frame(window, region);
+	cr = gdk_drawing_context_get_cairo_context(drawing);
+
 	cairo_set_source_rgb(cr, 0, 0, 0);
 	draw_graph(g->iops_graph, cr);
 	draw_graph(g->bandwidth_graph, cr);
-	cairo_destroy(cr);
+
+	gdk_window_end_draw_frame(window, drawing);
+	cairo_region_destroy(region);
 
 	return FALSE;
 }
