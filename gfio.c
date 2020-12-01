@@ -553,10 +553,11 @@ static int get_connection_details(struct gui_entry *ge)
 	vbox = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 5);
 
-	box = gtk_vbox_new(FALSE, 6);
+	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add(GTK_CONTAINER(frame), box);
 
-	hbox = gtk_hbox_new(TRUE, 10);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+	gtk_box_set_homogeneous(GTK_BOX(hbox), TRUE);
 	gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, FALSE, 0);
 	cw.hentry = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(cw.hentry), "localhost");
@@ -564,19 +565,21 @@ static int get_connection_details(struct gui_entry *ge)
 
 	frame = gtk_frame_new("Port");
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 5);
-	box = gtk_vbox_new(FALSE, 10);
+	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 	gtk_container_add(GTK_CONTAINER(frame), box);
 
-	hbox = gtk_hbox_new(TRUE, 4);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+	gtk_box_set_homogeneous(GTK_BOX(hbox), TRUE);
 	gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, FALSE, 0);
 	pentry = create_spinbutton(hbox, 1, 65535, FIO_NET_PORT);
 
 	frame = gtk_frame_new("Type");
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 5);
-	box = gtk_vbox_new(FALSE, 10);
+	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 	gtk_container_add(GTK_CONTAINER(frame), box);
 
-	hbox = gtk_hbox_new(TRUE, 4);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+	gtk_box_set_homogeneous(GTK_BOX(hbox), TRUE);
 	gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, FALSE, 0);
 
 	cw.combo = gtk_combo_box_text_new();
@@ -589,10 +592,11 @@ static int get_connection_details(struct gui_entry *ge)
 
 	frame = gtk_frame_new("Options");
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 5);
-	box = gtk_vbox_new(FALSE, 10);
+	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 	gtk_container_add(GTK_CONTAINER(frame), box);
 
-	hbox = gtk_hbox_new(TRUE, 4);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+	gtk_box_set_homogeneous(GTK_BOX(hbox), TRUE);
 	gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, FALSE, 0);
 
 	cw.button = gtk_check_button_new_with_label("Auto-spawn fio backend");
@@ -1010,12 +1014,14 @@ void gfio_view_log(struct gui *ui)
 
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	box = gtk_hbox_new(TRUE, 0);
+	box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_set_homogeneous(GTK_BOX(box), TRUE);
 	gtk_box_pack_start(GTK_BOX(box), ui->log_tree, TRUE, TRUE, 0);
 	g_signal_connect(box, "destroy", G_CALLBACK(view_log_destroy), ui);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scroll), box);
 
-	vbox = gtk_vbox_new(TRUE, 5);
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+	gtk_box_set_homogeneous(GTK_BOX(vbox), TRUE);
 	gtk_box_pack_start(GTK_BOX(vbox), scroll, TRUE, TRUE, 0);
 
 	gtk_container_add(GTK_CONTAINER(win), vbox);
@@ -1138,10 +1144,10 @@ static void preferences(GtkWidget *w, gpointer data)
 	frame = gtk_frame_new("Graphing");
 	vbox = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 5);
-	vbox = gtk_vbox_new(FALSE, 6);
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
-	hbox = gtk_hbox_new(FALSE, 5);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
 	entry = gtk_label_new("Font face to use for graph labels");
 	gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 5);
@@ -1149,20 +1155,20 @@ static void preferences(GtkWidget *w, gpointer data)
 	font = gtk_font_button_new_with_font(gfio_graph_font);
 	gtk_box_pack_start(GTK_BOX(hbox), font, FALSE, FALSE, 5);
 
-	box = gtk_vbox_new(FALSE, 6);
+	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 5);
 
-	hbox = gtk_hbox_new(FALSE, 5);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_box_pack_start(GTK_BOX(box), hbox, TRUE, TRUE, 5);
 	entry = gtk_label_new("Maximum number of data points in graph (seconds)");
 	gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 5);
 
 	spin = create_spinbutton(hbox, 10, 1000000, gfio_graph_limit);
 
-	box = gtk_vbox_new(FALSE, 6);
+	box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 5);
 
-	hbox = gtk_hbox_new(FALSE, 5);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_box_pack_start(GTK_BOX(box), hbox, TRUE, TRUE, 5);
 	entry = gtk_label_new("Client ETA request interval (msec)");
 	gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 5);
@@ -1171,17 +1177,17 @@ static void preferences(GtkWidget *w, gpointer data)
 	frame = gtk_frame_new("Debug logging");
 	vbox = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 5);
-	vbox = gtk_vbox_new(FALSE, 6);
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
-	box = gtk_hbox_new(FALSE, 6);
+	box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_container_add(GTK_CONTAINER(vbox), box);
 
 	buttons = malloc(sizeof(GtkWidget *) * FD_DEBUG_MAX);
 
 	for (i = 0; i < FD_DEBUG_MAX; i++) {
 		if (i == 7) {
-			box = gtk_hbox_new(FALSE, 6);
+			box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 			gtk_container_add(GTK_CONTAINER(vbox), box);
 		}
 
@@ -1363,26 +1369,26 @@ static GtkWidget *new_client_page(struct gui_entry *ge)
 	GtkWidget *main_vbox, *probe, *probe_frame, *probe_box;
 	GtkWidget *scrolled_window, *bottom_align, *top_align, *top_vbox;
 
-	main_vbox = gtk_vbox_new(FALSE, 3);
+	main_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
 
 	top_align = gtk_alignment_new(0, 0, 1, 0);
-	top_vbox = gtk_vbox_new(FALSE, 3);
+	top_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
 	gtk_container_add(GTK_CONTAINER(top_align), top_vbox);
 	gtk_box_pack_start(GTK_BOX(main_vbox), top_align, FALSE, FALSE, 0);
 
 	probe = gtk_frame_new("Job");
 	gtk_box_pack_start(GTK_BOX(main_vbox), probe, FALSE, FALSE, 3);
-	probe_frame = gtk_vbox_new(FALSE, 3);
+	probe_frame = gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
 	gtk_container_add(GTK_CONTAINER(probe), probe_frame);
 
-	probe_box = gtk_hbox_new(FALSE, 3);
+	probe_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start(GTK_BOX(probe_frame), probe_box, FALSE, FALSE, 3);
 	ge->probe.hostname = new_info_label_in_frame(probe_box, "Host");
 	ge->probe.os = new_info_label_in_frame(probe_box, "OS");
 	ge->probe.arch = new_info_label_in_frame(probe_box, "Architecture");
 	ge->probe.fio_ver = new_info_label_in_frame(probe_box, "Fio version");
 
-	probe_box = gtk_hbox_new(FALSE, 3);
+	probe_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start(GTK_BOX(probe_frame), probe_box, FALSE, FALSE, 3);
 
 	ge->eta.names = new_combo_entry_in_frame(probe_box, "Jobs");
@@ -1395,7 +1401,7 @@ static GtkWidget *new_client_page(struct gui_entry *ge)
 	ge->eta.jobs = new_info_entry_in_frame(probe_box, "Jobs");
 	ge->eta.files = new_info_entry_in_frame(probe_box, "Open files");
 
-	probe_box = gtk_hbox_new(FALSE, 3);
+	probe_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start(GTK_BOX(probe_frame), probe_box, FALSE, FALSE, 3);
 	ge->eta.read_bw = new_info_entry_in_frame_rgb(probe_box, "Read BW", GFIO_READ_R, GFIO_READ_G, GFIO_READ_B);
 	ge->eta.read_iops = new_info_entry_in_frame_rgb(probe_box, "Read IOPS", GFIO_READ_R, GFIO_READ_G, GFIO_READ_B);
@@ -1408,7 +1414,7 @@ static GtkWidget *new_client_page(struct gui_entry *ge)
 	 * Only add this if we have a commit rate
 	 */
 #if 0
-	probe_box = gtk_hbox_new(FALSE, 3);
+	probe_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start(GTK_BOX(probe_frame), probe_box, TRUE, FALSE, 3);
 
 	ge->eta.cr_bw = new_info_label_in_frame(probe_box, "Commit BW");
@@ -1443,7 +1449,7 @@ static GtkWidget *new_client_page(struct gui_entry *ge)
 	 * align bottom left, expand horizontally but not vertically
 	 */
 	bottom_align = gtk_alignment_new(0, 1, 1, 0);
-	ge->buttonbox = gtk_hbox_new(FALSE, 0);
+	ge->buttonbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_container_add(GTK_CONTAINER(bottom_align), ge->buttonbox);
 	gtk_box_pack_start(GTK_BOX(main_vbox), bottom_align, FALSE, FALSE, 0);
 
@@ -1466,23 +1472,23 @@ static GtkWidget *new_main_page(struct gui *ui)
 	GtkWidget *main_vbox, *probe, *probe_frame, *probe_box;
 	GtkWidget *scrolled_window, *bottom_align, *top_align, *top_vbox;
 
-	main_vbox = gtk_vbox_new(FALSE, 3);
+	main_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
 
 	/*
 	 * Set up alignments for widgets at the top of ui,
 	 * align top left, expand horizontally but not vertically
 	 */
 	top_align = gtk_alignment_new(0, 0, 1, 0);
-	top_vbox = gtk_vbox_new(FALSE, 0);
+	top_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(top_align), top_vbox);
 	gtk_box_pack_start(GTK_BOX(main_vbox), top_align, FALSE, FALSE, 0);
 
 	probe = gtk_frame_new("Run statistics");
 	gtk_box_pack_start(GTK_BOX(main_vbox), probe, FALSE, FALSE, 3);
-	probe_frame = gtk_vbox_new(FALSE, 3);
+	probe_frame = gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
 	gtk_container_add(GTK_CONTAINER(probe), probe_frame);
 
-	probe_box = gtk_hbox_new(FALSE, 3);
+	probe_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start(GTK_BOX(probe_frame), probe_box, FALSE, FALSE, 3);
 	ui->eta.jobs = new_info_entry_in_frame(probe_box, "Running");
 	ui->eta.read_bw = new_info_entry_in_frame_rgb(probe_box, "Read BW", GFIO_READ_R, GFIO_READ_G, GFIO_READ_B);
@@ -1496,7 +1502,7 @@ static GtkWidget *new_main_page(struct gui *ui)
 	 * Only add this if we have a commit rate
 	 */
 #if 0
-	probe_box = gtk_hbox_new(FALSE, 3);
+	probe_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start(GTK_BOX(probe_frame), probe_box, TRUE, FALSE, 3);
 
 	ui->eta.cr_bw = new_info_label_in_frame(probe_box, "Commit BW");
@@ -1532,7 +1538,7 @@ static GtkWidget *new_main_page(struct gui *ui)
 	 * align bottom left, expand horizontally but not vertically
 	 */
 	bottom_align = gtk_alignment_new(0, 1, 1, 0);
-	ui->buttonbox = gtk_hbox_new(FALSE, 0);
+	ui->buttonbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_container_add(GTK_CONTAINER(bottom_align), ui->buttonbox);
 	gtk_box_pack_start(GTK_BOX(main_vbox), bottom_align, FALSE, FALSE, 0);
 
@@ -1705,7 +1711,7 @@ static void init_ui(int *argc, char **argv[], struct gui *ui)
 	g_signal_connect(ui->window, "delete-event", G_CALLBACK(quit_clicked), ui);
 	g_signal_connect(ui->window, "destroy", G_CALLBACK(quit_clicked), ui);
 
-	ui->vbox = gtk_vbox_new(FALSE, 0);
+	ui->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(ui->window), ui->vbox);
 
 	ui->uimanager = gtk_ui_manager_new();
