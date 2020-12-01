@@ -1457,17 +1457,17 @@ int main(void)
   gdk_threads_enter();
   gdk_threads_leave();
 
-  return GTK_CHECK_VERSION(2, 18, 0) ? 0 : 1; /* 0 on success */
+  return GTK_CHECK_VERSION(3, 0, 0) ? 0 : 1; /* 0 on success */
 }
 EOF
-GTK_CFLAGS=$(${cross_prefix}pkg-config --cflags gtk+-2.0 gthread-2.0)
+GTK_CFLAGS=$(${cross_prefix}pkg-config --cflags gtk+-3.0 gthread-2.0)
 ORG_LDFLAGS=$LDFLAGS
 LDFLAGS=$(echo $LDFLAGS | sed s/"-static"//g)
 if test "$?" != "0" ; then
   echo "configure: gtk and gthread not found"
   exit 1
 fi
-GTK_LIBS=$(${cross_prefix}pkg-config --libs gtk+-2.0 gthread-2.0)
+GTK_LIBS=$(${cross_prefix}pkg-config --libs gtk+-3.0 gthread-2.0)
 if test "$?" != "0" ; then
   echo "configure: gtk and gthread not found"
   exit 1
@@ -1488,7 +1488,7 @@ LDFLAGS=$ORG_LDFLAGS
 fi
 
 if test "$gfio_check" = "yes" ; then
-  print_config "gtk 2.18 or higher" "$gfio"
+  print_config "gtk 3.0 or higher" "$gfio"
 fi
 
 ##########################################
