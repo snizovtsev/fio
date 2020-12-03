@@ -1456,10 +1456,10 @@ static GtkWidget *new_client_page(struct gui_entry *ge)
 	 * Set up alignments for widgets at the bottom of ui,
 	 * align bottom left, expand horizontally but not vertically
 	 */
-	bottom_align = gtk_alignment_new(0, 1, 1, 0);
 	ge->buttonbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_container_add(GTK_CONTAINER(bottom_align), ge->buttonbox);
-	gtk_box_pack_start(GTK_BOX(main_vbox), bottom_align, FALSE, FALSE, 0);
+	gtk_widget_set_valign(ge->buttonbox, GTK_ALIGN_END);
+	gtk_widget_set_hexpand(ge->buttonbox, TRUE);
+	gtk_box_pack_start(GTK_BOX(main_vbox), ge->buttonbox, FALSE, FALSE, 0);
 
 	add_buttons(ge, buttonspeclist, ARRAY_SIZE(buttonspeclist));
 
@@ -1467,8 +1467,10 @@ static GtkWidget *new_client_page(struct gui_entry *ge)
 	 * Set up thread status progress bar
 	 */
 	ge->thread_status_pb = gtk_progress_bar_new();
+	gtk_widget_set_hexpand(ge->thread_status_pb , TRUE);
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ge->thread_status_pb), 0.0);
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(ge->thread_status_pb), "No connections");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(ge->thread_status_pb), TRUE);
 	gtk_container_add(GTK_CONTAINER(ge->buttonbox), ge->thread_status_pb);
 
 
@@ -1719,7 +1721,7 @@ static void init_ui(int *argc, char **argv[], struct gui *ui)
 	g_signal_connect(ui->window, "delete-event", G_CALLBACK(quit_clicked), ui);
 	g_signal_connect(ui->window, "destroy", G_CALLBACK(quit_clicked), ui);
 
-	ui->vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	ui->vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(ui->window), ui->vbox);
 
 	ui->uimanager = gtk_ui_manager_new();
